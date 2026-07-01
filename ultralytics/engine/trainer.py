@@ -414,6 +414,12 @@ class BaseTrainer:
         self._oom_retries = 0  # OOM auto-reduce counter for first epoch
         while True:
             self.epoch = epoch
+            
+                    # LDAM-DRW: notify the classification loss module of the current epoch
+        if hasattr(self, 'loss_criterion') and hasattr(self.loss_criterion, 'bce'):
+            if hasattr(self.loss_criterion.bce, 'set_epoch'):
+                self.loss_criterion.bce.set_epoch(epoch)
+            
             self.run_callbacks("on_train_epoch_start")
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore")  # suppress 'Detected lr_scheduler.step() before optimizer.step()'

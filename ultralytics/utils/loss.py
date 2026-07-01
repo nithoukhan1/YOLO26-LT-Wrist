@@ -342,7 +342,12 @@ class v8DetectionLoss:
         h = model.args  # hyperparameters
 
         m = model.model[-1]  # Detect() module
-        self.bce = nn.BCEWithLogitsLoss(reduction="none")
+        
+        # LDAM-DRW: long-tail-aware classification loss for GRAZPEDWRI-DX
+        from ultralytics.utils.ldam_loss import LDAMLoss
+        self.bce = LDAMLoss(num_classes=9)
+        self.ldam_enabled = True  # marker for the trainer to update epoch
+        
         self.hyp = h
         self.stride = m.stride  # model strides
         self.nc = m.nc  # number of classes
