@@ -8,7 +8,9 @@ from copy import deepcopy
 from pathlib import Path
 
 import torch
-import torch.nn as nn
+import torch.nn as 
+# Import it at the top of tasks.py or inside parse_model
+from ultralytics.nn.modules import VSSBlock
 
 from ultralytics.nn.autobackend import check_class_names
 from ultralytics.nn.modules import (
@@ -1919,6 +1921,17 @@ def parse_model(d, ch, verbose=True):
             args = [ch[f]]
         elif m is Concat:
             c2 = sum(ch[x] for x in f)
+            
+            
+        # Inside the if/elif block of parse_model:
+        elif m is VSSBlock:
+            c1, c2 = ch[f], args[0]
+            if c2 != no:
+                c2 = make_divisible(min(c2, max_channels) * width, 8)
+            args = [c1, c2, *args[1:]]
+            
+            
+            
         elif m in frozenset(
             {
                 Detect,

@@ -16,7 +16,8 @@ Examples:
     >>> torch.onnx.export(m, x, f)
     >>> subprocess.run(f"onnxslim {f} {f} && open {f}", shell=True, check=True)  # pip install onnxslim
 """
-
+# Add this near the top imports
+from .vss import VSSBlock
 from .block import (
     C1,
     C2,
@@ -189,4 +190,5 @@ __all__ = (
     "YOLOESegment",
     "YOLOESegment26",
     "v10Detect",
+    "VSSBlock",
 )
