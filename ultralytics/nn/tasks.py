@@ -8,8 +8,7 @@ from copy import deepcopy
 from pathlib import Path
 
 import torch
-import torch.nn as 
-# Import it at the top of tasks.py or inside parse_model
+import torch.nn as nn
 from ultralytics.nn.modules import VSSBlock
 
 from ultralytics.nn.autobackend import check_class_names
